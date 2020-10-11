@@ -46,15 +46,17 @@ for example:
 
 Evaluation Results
 ----------------------
+```
 1. Download training and testing data: https://cloud.tsinghua.edu.cn/f/18ae0a962c4042889044/?dl=1
 2. Unzip the downloaded data to word2vec_data
 3. Train word2vec model using word2vec_train.py as following:
-    python word2vec_train.py -train word2vec_data/train_corpus.txt -model model-cbow-5-120.txt -window 5 -processes 4 -dim 120
+    $python word2vec_train.py -train word2vec_data/train_corpus.txt -model model-cbow-5-120.txt -window 5 -processes 4 -dim 120
 4. After the training finished, use the following command to evaluate the model:
 (1) $python word2vec_test.py -model model-cbow-5-120.txt -et 0 -test word2vec_data/test_wordsim-353.txt
     The evaluation result for wordsim-353 is 0.6129
 (2) $python word2vec_test.py -model model-cbow-5-120.txt -et 1 -test word2vec_data/test_analogy.txt
     The evaluation result for Google analogy is 0.7138
+```
 
 Implementation Details
 ----------------------
