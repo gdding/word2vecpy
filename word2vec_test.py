@@ -32,8 +32,8 @@ def load_model(fi):
 
 
 # find the best analogy word according the model
- # for w1 w2 w3 w4 there is: w1 - w2 :: w3 - w4 (:: means "analogy to")
- # for example: Beijing - China :: Toyko - Japan
+# for w1 w2 w3 w4 there is: w1 - w2 :: w3 - w4 (:: means "analogy to")
+# for example: Beijing - China :: Toyko - Japan
 def find_analogy(w1, w2, w3, vocab_vecs, vocab_hash):
     dim = len(vocab_vecs[0])
     w1 = w1.lower()
