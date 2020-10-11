@@ -1,48 +1,51 @@
-> **DISCLAIMER**: This is a very old, rather slow, mostly untested, and *completely* unmaintained implementation of word2vec for an old course project (i.e., I do not respond to questions/issues). Feel free to fork/clone and modify, but *use at your own risk*!
-
 A Python implementation of the Continuous Bag of Words (CBOW) and skip-gram neural network architectures, and the hierarchical softmax and negative sampling learning algorithms for efficient learning of word vectors (Mikolov, et al., 2013a, b, c; http://code.google.com/p/word2vec/).
 
 Usage
 -----
 To train word vectors:
 ```
-word2vec.py [-h] -train FI -model FO [-cbow CBOW] [-negative NEG]
-            [-dim DIM] [-alpha ALPHA] [-window WIN]
-            [-min-count MIN_COUNT] [-processes NUM_PROCESSES]
-            [-binary BINARY]
+word2vec_train.py [-h] -train FI -model FO [-cbow CBOW] [-negative NEG]
+                  [-dim DIM] [-alpha ALPHA] [-window WIN]
+                  [-min-count MIN_COUNT] [-processes NUM_PROCESSES]
+                  [-binary BINARY]
 
 required arguments:
   -train FI                 Training file
-  -model FO                 Output model file
+  -model FO                 Output file to save the model
 
 optional arguments:
   -h, --help                show this help message and exit
-  -cbow CBOW                1 for CBOW, 0 for skip-gram
+  -cbow CBOW                1 for CBOW, 0 for skip-gram, default=1
   -negative NEG             Number of negative examples (>0) for negative sampling, 
-                            0 for hierarchical softmax
-  -dim DIM                  Dimensionality of word embeddings
-  -alpha ALPHA              Starting learning rate
-  -window WIN               Max window length
-  -min-count MIN_COUNT      Min count for words used to learn <unk>
-  -processes NUM_PROCESSES  Number of processes
-  -binary BINARY            1 for output model in binary format, 0 otherwise
+                            0 for hierarchical softmax, default=5
+  -dim DIM                  Dimensionality of word embeddings, default=100
+  -alpha ALPHA              Starting learning rate, default=0.025
+  -window WIN               Max window length, default=5
+  -min-count MIN_COUNT      Min count for words used to learn <unk>, default=5
+  -processes NUM_PROCESSES  Number of processes, default=1
+  -binary BINARY            1 for output model in binary format, 0 otherwise, default=0
+  
+for example:
+python word2vec_train.py -train data/train_corpus.txt -model model-cbow-5-120.txt -window 5 -processes 4 -dim 120
 ```
 Each sentence in the training file is expected to be newline separated. 
 
+To test word vectors:
+```
+word2vec_test.py [-h] -model FI -et ET -test TEST
+
+required arguments:
+  -model FI                 model file
+  -et ET                    evaluation type, 0 for wordsim353, 1 for Google analogy
+  -test TEST                test file to be evaluated, when et is 0, must be wordsim353 file, otherwise analogy file.
+
+for example:
+python word2vec_test.py -model data/model-cbow-5-120.txt -et 0 -test data/test_wordsim-353.txt
+```
+
 Implementation Details
 ----------------------
-Written in Python 2.7.6 and NumPy 1.9.1.
-
-Evaluation
-----------
-Accuracy (%) on the word analogy task compared against the original C implementation (in parentheses). Trained on a preprocessed version of the first 10<sup>8</sup> bytes of the English Wikipedia dump on March 3, 2006 (http://mattmahoney.net/dc/textdata.html).
-
-| Model        | Total         | Semantic      | Syntactic     |
-|:------------ |--------------:| -------------:| -------------:|
-| CBOW HS      | 6.76 (6.90)   | 4.86 (3.61)   | 7.93 (8.93)   |
-| CBOW NS      | 4.52 (6.72)   | 3.94 (3.74)   | 4.88 (8.56)   |
-| Skip-gram HS | 14.76 (14.59) | 11.40 (10.40) | 16.83 (17.18) |       
-| Skip-gram NS | 8.43 (7.72)   | 4.91 (4.62)   | 10.62 (9.63)  |
+Written in Python 2.7.17, NumPy 1.16.6, and Pandas 0.24.2.
 
 References
 ----------
