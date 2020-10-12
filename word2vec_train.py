@@ -54,7 +54,7 @@ class Vocab:
             word_count += 2
 
             # max word count limitation -- for test
-            #if word_count > 10000000: break;
+            if word_count > 10000000: break;
 
         self.bytes = fi.tell()
         self.vocab_items = vocab_items # List of VocabItem objects
