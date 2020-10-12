@@ -45,7 +45,7 @@ def find_analogy(w1, w2, w3, vocab_vecs, vocab_hash):
     if w1 in vocab_hash: v1 = np.array(vocab_vecs[vocab_hash[w1]], dtype=np.float)
     if w2 in vocab_hash: v2 = np.array(vocab_vecs[vocab_hash[w2]], dtype=np.float)
     if w3 in vocab_hash: v3 = np.array(vocab_vecs[vocab_hash[w3]], dtype=np.float)
-    v4 = v3 - v1 + v2
+    v4 = v2 - v1 + v3
     nv4 = v4 / np.linalg.norm(v4)
 
     # find the most similar vector and the word

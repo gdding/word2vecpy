@@ -30,7 +30,10 @@ class Vocab:
             vocab_hash[token] = len(vocab_items)
             vocab_items.append(VocabItem(token))
 
-        for line in fi:
+        while True:
+            line = fi.readline().strip()
+            if not line: break
+
             tokens = line.split()
             for token in tokens:
                 if token not in vocab_hash:
@@ -311,7 +314,7 @@ def train_process(pid):
                      (alpha, global_word_count.value, vocab.word_count,
                       float(global_word_count.value)/vocab.word_count * 100))
     sys.stdout.flush()
-    fi.close()
+    #fi.close()
 
 
 def save(vocab, syn0, fo, binary):
@@ -349,7 +352,7 @@ def __init_process(*args):
         syn1 = np.ctypeslib.as_array(syn1_tmp)
 
 
-def train(fi, fo, cbow, neg, dim, alpha, win, min_count, num_processes, binary):
+def train(fi, fo, cbow, neg, dim, alpha, win, min_count, num_processes, binary, epoch):
     # Read train file to init vocab
     vocab = Vocab(fi, min_count)
 
@@ -368,7 +371,11 @@ def train(fi, fo, cbow, neg, dim, alpha, win, min_count, num_processes, binary):
     # Begin training using num_processes workers
     t0 = time.time()
     pool = Pool(processes=num_processes, initializer=__init_process, initargs=(vocab, syn0, syn1, table, cbow, neg, dim, alpha, win, num_processes, global_word_count, fi))
-    pool.map(train_process, range(num_processes))
+    for n in range(epoch):
+        print 'Epoch %d begin ...' % (n + 1)
+        pool.map(train_process, range(num_processes))
+        global_word_count.value = 0
+        print '\nEpoch %d finished.' % (n + 1)
     t1 = time.time()
     print
     print 'Completed training. Training took', (t1 - t0) / 60, 'minutes'
@@ -402,7 +409,7 @@ if __name__ == '__main__':
     parser.add_argument('-min-count', help='Min count for words used to learn <unk>', dest='min_count', default=5, type=int)
     parser.add_argument('-processes', help='Number of processes', dest='num_processes', default=1, type=int)
     parser.add_argument('-binary', help='1 for output model in binary format, 0 otherwise', dest='binary', default=0, type=int)
-    #TO DO: parser.add_argument('-epoch', help='Number of training epochs', dest='epoch', default=1, type=int)
+    parser.add_argument('-epoch', help='Number of training epochs', dest='epoch', default=1, type=int)
     args = parser.parse_args()
 
-    train(args.fi, args.fo, bool(args.cbow), args.neg, args.dim, args.alpha, args.win, args.min_count, args.num_processes, bool(args.binary))
+    train(args.fi, args.fo, bool(args.cbow), args.neg, args.dim, args.alpha, args.win, args.min_count, args.num_processes, bool(args.binary), args.epoch)
