@@ -54,7 +54,7 @@ class Vocab:
             word_count += 2
 
             # max word count limitation -- for test
-            if word_count > 10000000: break;
+            #if word_count > 10000000: break;
 
         self.bytes = fi.tell()
         self.vocab_items = vocab_items # List of VocabItem objects
@@ -370,12 +370,17 @@ def train(fi, fo, cbow, neg, dim, alpha, win, min_count, num_processes, binary, 
 
     # Begin training using num_processes workers
     t0 = time.time()
-    pool = Pool(processes=num_processes, initializer=__init_process, initargs=(vocab, syn0, syn1, table, cbow, neg, dim, alpha, win, num_processes, global_word_count, fi))
+    pool = Pool(processes=num_processes, initializer=__init_process,
+                initargs=(vocab, syn0, syn1, table, cbow, neg, dim, alpha, win, num_processes, global_word_count, fi))
     for n in range(epoch):
         print 'Epoch %d begin ...' % (n + 1)
         pool.map(train_process, range(num_processes))
         global_word_count.value = 0
         print '\nEpoch %d finished.' % (n + 1)
+
+        # save temporay model file
+        tf = 'model-%d-%d-%d.txt' % (win, dim, n+1)
+        save(vocab, syn0, tf, binary)
     t1 = time.time()
     print
     print 'Completed training. Training took', (t1 - t0) / 60, 'minutes'
