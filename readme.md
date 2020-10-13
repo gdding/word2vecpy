@@ -27,7 +27,7 @@ optional arguments:
   -epoch EPOCH              Number of traing epochs, default=1
   
 for example:
-  python word2vec_train.py -train train_corpus.txt -model model-cbow-5-200-5.txt -window 5 -processes 4 -dim 200 -epoch 5
+  python word2vec_train.py -train train_corpus.txt -model model-cbow-5-200-3.txt -window 5 -processes 8 -dim 200 -epoch 3
 ```
 Each sentence in the training file is expected to be newline separated. 
 
@@ -41,8 +41,8 @@ required arguments:
   -test TEST                test file to be evaluated, when et is 0, must be wordsim353 file, otherwise analogy file.
 
 for example:
-  python word2vec_test.py -model model-cbow-5-200-5.txt -et 0 -test test/test_wordsim-353.txt
-  python word2vec_test.py -model model-cbow-5-200-5.txt -et 1 -test test/test_analogy.txt
+  python word2vec_test.py -model model-cbow-5-200-3.txt -et 0 -test test/test_wordsim-353.txt
+  python word2vec_test.py -model model-cbow-5-200-3.txt -et 1 -test test/test_analogy.txt
 ```
 
 Evaluation Results
@@ -53,9 +53,9 @@ Evaluation Results
 3. Train word2vec model using word2vec_train.py as following:
     $python word2vec_train.py -train train_corpus.txt -model model-cbow-5-200-5.txt -window 5 -processes 4 -dim 200 -epoch 5
 4. After the training finished, use the following command to evaluate the model:
-(1) $python word2vec_test.py -model model-cbow-5-200-5.txt -et 0 -test word2vec_data/test_wordsim-353.txt
-    The evaluation result for wordsim-353 is 0.6129
-(2) $python word2vec_test.py -model model-cbow-5-2-00-5.txt -et 1 -test word2vec_data/test_analogy.txt
+(1) $python word2vec_test.py -model model-cbow-5-200-3.txt -et 0 -test word2vec_data/test_wordsim-353.txt
+    The evaluation result for wordsim-353 is 0.6459
+(2) $python word2vec_test.py -model model-cbow-5-2-00-3.txt -et 1 -test word2vec_data/test_analogy.txt
     The evaluation result for Google analogy is 0.7138
 ```
 
