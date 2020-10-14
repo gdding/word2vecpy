@@ -56,7 +56,7 @@ Evaluation Results
 (1) $python word2vec_test.py -model model-cbow-5-200-3.txt -et 0 -test test_wordsim-353.txt
     The evaluation result for wordsim-353 is 0.6459 (Spearman correlation coefficient)
 (2) $python word2vec_test.py -model model-cbow-5-2-00-3.txt -et 1 -test test_analogy.txt
-    The evaluation result for Google analogy is 0.7138 (Accuracy)
+    The evaluation result for Google analogy is 0.5815 (Accuracy)
 ```
 
 Implementation Details
