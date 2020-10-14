@@ -51,7 +51,7 @@ Evaluation Results
 1. Download training and testing data: https://cloud.tsinghua.edu.cn/f/18ae0a962c4042889044/?dl=1
 2. Unzip the downloaded data to current work path
 3. Train word2vec model using word2vec_train.py as following:
-    $python word2vec_train.py -train train_corpus.txt -model model-cbow-5-200-5.txt -window 5 -processes 4 -dim 200 -epoch 5
+    $python word2vec_train.py -train train_corpus.txt -model model-cbow-5-200-3.txt -window 5 -processes 4 -dim 200 -epoch 3
 4. After the training finished, use the following command to evaluate the model:
 (1) $python word2vec_test.py -model model-cbow-5-200-3.txt -et 0 -test test_wordsim-353.txt
     The evaluation result for wordsim-353 is 0.6459 (Spearman correlation coefficient)
